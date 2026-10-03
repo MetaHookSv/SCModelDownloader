@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "name": "scmodeldownloader",
+  "indexUrl": "https://hlnd2t.github.io/GoldSrc_VibeSignatures/gamesymbols/index.json",
+  "gameVersions": [
+    "svencoop-10257",
+    "svencoop-8948"
+  ],
+  "symbols": {
+    "engine": {
+      "R_StudioDrawPlayer": "function",
+      "studioapi_SetupPlayerModel": "function",
+      "Host_IsSinglePlayerGame": "function",
+      "DM_PlayerState": "global",
+      "cl_players_model": "global"
+    }
+  }
+}
