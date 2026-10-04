@@ -73,13 +73,13 @@ install(FILES "$<TARGET_PDB_FILE:SCModelDownloader>" DESTINATION svencoop/metaho
 install(DIRECTORY assets/ DESTINATION .)
 
 option(SCMODELDOWNLOADER_SYNC_GAMEDATA "Download and prune SCModelDownloader's gamedata catalog before building" ON)
-set(SCMODELDOWNLOADER_GAMEDATA_DIR "${CMAKE_BINARY_DIR}/assets/svencoop/metahook/gamedata/scmodeldownloader" CACHE PATH "SCModelDownloader gamedata catalog directory")
+set(SCMODELDOWNLOADER_GAMEDATA_DIR "${PROJECT_BINARY_DIR}/assets/svencoop/metahook/gamedata/scmodeldownloader" CACHE PATH "SCModelDownloader gamedata catalog directory")
 if(SCMODELDOWNLOADER_SYNC_GAMEDATA)
     find_package(Python3 REQUIRED COMPONENTS Interpreter)
     add_custom_target(SCModelDownloaderGameData
         COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/scripts/sync-gamedata.py"
             --manifest "${CMAKE_CURRENT_SOURCE_DIR}/scripts/manifests/scmodeldownloader.json"
-            --target-dir "${SCMODELDOWNLOADER_GAMEDATA_DIR}" --temp-root "${CMAKE_BINARY_DIR}/gamedata-sync"
+            --target-dir "${SCMODELDOWNLOADER_GAMEDATA_DIR}" --temp-root "${PROJECT_BINARY_DIR}/gamedata-sync"
         COMMENT "Synchronizing and validating SCModelDownloader gamedata"
         VERBATIM)
     add_custom_target(SCModelDownloaderGameDataValidate
