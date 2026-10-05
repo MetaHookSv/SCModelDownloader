@@ -11,7 +11,7 @@ the local player to the latest version of an outdated model.
 
 ## Install
 
-1. Install [MetaHookSv](https://github.com/MetaHookSv/MetaHook). A build from the pinned SDK
+1. Install [MetaHookSv](https://github.com/MetaHookSv/MetaHook). A build from the auto-fetched SDK
    requires MetaHook API 115 or newer.
 2. Install the runtime dependencies:
    * [UtilHTTPClient_libcurl](https://github.com/MetaHookSv/UtilHTTPClient_libcurl/releases)
@@ -52,16 +52,16 @@ The scripts configure under `build/x86/<Configuration>` and install the DLL, PDB
 gamedata and UI assets under `install/x86/<Configuration>/svencoop`.
 They do not deploy files into a local game installation.
 
-The first configure fetches every source dependency at a pinned commit and a
+The first configure fetches every source dependency (MetaHook from the latest `main`) and a
 SHA256-verified VC-LTL 5.3.1 binary package in `thirdparty/cache`. Dependencies are
 consumed as headers (the MetaHook SDK also supplies its compilation units); none of their
 projects are configured or built. The explicit source list preserves the original 13 plugin
 and 105 SDK compilation units, with C++20 and a static CRT. The plugin neither uses Capstone
 nor links `steam_api`.
 
-| Variable | Repository | Pinned commit |
+| Variable | Repository | Revision |
 | --- | --- | --- |
-| `METAHOOK_SOURCE_PATH` | [MetaHookSv/MetaHook](https://github.com/MetaHookSv/MetaHook) | `ed94e2e` |
+| `METAHOOK_SOURCE_PATH` | [MetaHookSv/MetaHook](https://github.com/MetaHookSv/MetaHook) | latest `main` |
 | `VGUI2EXTENSION_SOURCE_PATH` | [MetaHookSv/VGUI2Extension](https://github.com/MetaHookSv/VGUI2Extension) | `07933ad` |
 | `UTILASSETSINTEGRITY_SOURCE_PATH` | [MetaHookSv/UtilAssetsIntegrity](https://github.com/MetaHookSv/UtilAssetsIntegrity) | `d823d36` |
 | `UTILHTTPCLIENT_SOURCE_PATH` | [MetaHookSv/UtilHTTPClient_libcurl](https://github.com/MetaHookSv/UtilHTTPClient_libcurl) | `10233ab` |

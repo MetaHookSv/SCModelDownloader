@@ -9,7 +9,7 @@ SCModelDownloader 是 Sven Co-op 专用的 MetaHook 插件，自动从 [scmodels
 
 ## 安装
 
-1. 安装 [MetaHookSv](https://github.com/MetaHookSv/MetaHook)。基于固定 commit 的 SDK 构建的插件
+1. 安装 [MetaHookSv](https://github.com/MetaHookSv/MetaHook)。基于自动获取的 SDK 构建的插件
    要求 MetaHook API 115 或更新版本。
 2. 安装运行时依赖：
    * [UtilHTTPClient_libcurl](https://github.com/MetaHookSv/UtilHTTPClient_libcurl/releases)（优先）
@@ -49,14 +49,14 @@ scripts\build-SCModelDownloader-x86-Debug.bat
 构建目录为 `build/x86/<Configuration>`，DLL、PDB、gamedata 和 UI 资源安装到
 `install/x86/<Configuration>/svencoop`。脚本不会向本地游戏目录部署文件。
 
-首次配置会获取所有固定 commit 的源码依赖，以及经过 SHA256 校验的 VC-LTL 5.3.1 二进制包；
+首次配置会获取所有源码依赖（MetaHook 跟踪最新 `main`），以及经过 SHA256 校验的 VC-LTL 5.3.1 二进制包；
 后者缓存于 `thirdparty/cache`。依赖只以头文件形式使用（MetaHook SDK 另外提供编译单元），
 不会配置或构建它们的工程。显式编译清单保留原工程的 13 个插件和 105 个 SDK 编译单元，
 使用 C++20 和静态 CRT。插件不使用 Capstone，也不链接 `steam_api`。
 
-| 变量 | 仓库 | 固定 commit |
+| 变量 | 仓库 | 版本 |
 | --- | --- | --- |
-| `METAHOOK_SOURCE_PATH` | [MetaHookSv/MetaHook](https://github.com/MetaHookSv/MetaHook) | `ed94e2e` |
+| `METAHOOK_SOURCE_PATH` | [MetaHookSv/MetaHook](https://github.com/MetaHookSv/MetaHook) | 最新 `main` |
 | `VGUI2EXTENSION_SOURCE_PATH` | [MetaHookSv/VGUI2Extension](https://github.com/MetaHookSv/VGUI2Extension) | `07933ad` |
 | `UTILASSETSINTEGRITY_SOURCE_PATH` | [MetaHookSv/UtilAssetsIntegrity](https://github.com/MetaHookSv/UtilAssetsIntegrity) | `d823d36` |
 | `UTILHTTPCLIENT_SOURCE_PATH` | [MetaHookSv/UtilHTTPClient_libcurl](https://github.com/MetaHookSv/UtilHTTPClient_libcurl) | `10233ab` |

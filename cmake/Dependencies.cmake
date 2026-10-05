@@ -30,7 +30,8 @@ endfunction()
 
 function(scmodeldownloader_prepare_dependencies)
     set(METAHOOK_url https://github.com/MetaHookSv/MetaHook)
-    set(METAHOOK_tag ed94e2e6e692e27ae125afc6d8f530e03ecdc5c1)
+    # MetaHook is tracked as a branch: always fetch the latest main.
+    set(METAHOOK_tag origin/main)
     set(METAHOOK_files include/metahook.h include/HLSDK/common/interface.cpp
         include/Interface/IPlugins.h include/Interface/VGUI/IPanel2.h
         include/SourceSDK/filesystem.cpp include/SourceSDK/tier1/strtools.cpp

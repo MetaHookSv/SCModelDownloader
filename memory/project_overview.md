@@ -141,7 +141,7 @@ Symbols and ABI contract (gamedata-only, no signature search):
   list and upgrade prompt are not registered). All are loaded through `Sys_LoadModule` and fail with
   `Sys_Error` diagnostics.
 - **Build-time sources (headers only, never configured or built)**: MetaHook, VGUI2Extension,
-  UtilAssetsIntegrity, UtilHTTPClient, RapidJSON and ScopeExit, each pinned by commit in
+  UtilAssetsIntegrity, UtilHTTPClient, RapidJSON and ScopeExit, all declared in
   `cmake/Dependencies.cmake`; the interface repositories precede the MetaHook SDK on the include path.
   No Capstone and no `steam_api` link.
 - **Network endpoints**: `models.json` from `raw.githubusercontent.com/wootguy/pmodels/master/database/sc/models.json`,
