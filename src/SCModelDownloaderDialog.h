@@ -16,18 +16,17 @@ class CSCModelDownloaderSettingsPage;
 class CSCModelDownloaderDialog : public vgui::Frame
 {
 public:
-	DECLARE_CLASS_SIMPLE(CSCModelDownloaderDialog, vgui::Frame);
+    DECLARE_CLASS_SIMPLE(CSCModelDownloaderDialog, vgui::Frame);
 
-	CSCModelDownloaderDialog(vgui::Panel *parent, const char* name);
-	~CSCModelDownloaderDialog();
+    CSCModelDownloaderDialog(vgui::Panel* parent, const char* name);
+    ~CSCModelDownloaderDialog();
 
 private:
+    void OnCommand(const char* command) override;
 
-	void OnCommand(const char* command) override;
+    typedef vgui::Frame BaseClass;
 
-	typedef vgui::Frame BaseClass;
-
-	CTaskListPage* m_pTaskListPage{};
-	CSCModelDownloaderSettingsPage* m_pSCModelDownloaderSettingsPage{};
-	vgui::PropertySheet* m_pTabPanel{};
+    CTaskListPage*                  m_pTaskListPage{};
+    CSCModelDownloaderSettingsPage* m_pSCModelDownloaderSettingsPage{};
+    vgui::PropertySheet*            m_pTabPanel{};
 };
