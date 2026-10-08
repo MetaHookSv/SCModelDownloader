@@ -14,50 +14,50 @@
 
 static cvar_t* g_pDeveloper = NULL;
 
-cvar_t *scmodel_autodownload = NULL;
-cvar_t *scmodel_downloadlatest = NULL;
-cvar_t* scmodel_cdn = NULL;
-cvar_t* scmodel_max_retry = NULL;
+cvar_t* scmodel_autodownload   = NULL;
+cvar_t* scmodel_downloadlatest = NULL;
+cvar_t* scmodel_cdn            = NULL;
+cvar_t* scmodel_max_retry      = NULL;
 
-cl_enginefunc_t gEngfuncs = {0};
-engine_studio_api_t IEngineStudio = { 0 };
-r_studio_interface_t **gpStudioInterface = NULL;
+cl_enginefunc_t        gEngfuncs         = {0};
+engine_studio_api_t    IEngineStudio     = {0};
+r_studio_interface_t** gpStudioInterface = NULL;
 
 bool SCModel_AutoDownload()
 {
-	return scmodel_autodownload->value >= 1 ? true : false;
+    return scmodel_autodownload->value >= 1 ? true : false;
 }
 
 bool SCModel_ShouldDownloadLatest()
 {
-	return scmodel_downloadlatest->value >= 1 ? true : false;
+    return scmodel_downloadlatest->value >= 1 ? true : false;
 }
 
 int SCModel_CDN()
 {
-	return (int)scmodel_cdn->value;
+    return (int)scmodel_cdn->value;
 }
 
 int SCModel_MaxRetry()
 {
-	return (int)scmodel_max_retry->value;
+    return (int)scmodel_max_retry->value;
 }
 
 /*
 	Purpose: Reload model for players that are using the specified model
 */
 
-void SCModel_ReloadModel(const char *name)
+void SCModel_ReloadModel(const char* name)
 {
-	//Reload models for those players
-	for (int i = 0; i < MAX_CLIENTS; ++i)
-	{
-		if (!stricmp((*DM_PlayerState)[i].name, name))
-		{
-			(*DM_PlayerState)[i].name[0] = 0;
-			(*DM_PlayerState)[i].model = nullptr;
-		}
-	}
+    //Reload models for those players
+    for (int i = 0; i < MAX_CLIENTS; ++i)
+    {
+        if (!stricmp((*DM_PlayerState)[i].name, name))
+        {
+            (*DM_PlayerState)[i].name[0] = 0;
+            (*DM_PlayerState)[i].model   = nullptr;
+        }
+    }
 }
 
 /*
@@ -66,16 +66,16 @@ void SCModel_ReloadModel(const char *name)
 
 void SCModel_ReloadAllModels()
 {
-	for (int i = 0; i < MAX_CLIENTS; ++i)
-	{
-		(*DM_PlayerState)[i].name[0] = 0;
-		(*DM_PlayerState)[i].model = nullptr;
-	}
+    for (int i = 0; i < MAX_CLIENTS; ++i)
+    {
+        (*DM_PlayerState)[i].name[0] = 0;
+        (*DM_PlayerState)[i].model   = nullptr;
+    }
 }
 
-static const char * EngineGetPlayerModelName(int playerindex)
+static const char* EngineGetPlayerModelName(int playerindex)
 {
-	return (g_iEngineType == ENGINE_SVENGINE) ? cl_players_sc[playerindex].model : cl_players[playerindex].model;
+    return (g_iEngineType == ENGINE_SVENGINE) ? cl_players_sc[playerindex].model : cl_players[playerindex].model;
 }
 
 /*
@@ -89,16 +89,15 @@ static const char * EngineGetPlayerModelName(int playerindex)
 
 static bool SCModel_IsModelChanged(int playerindex, cl_entity_t* currentEntity)
 {
-	const char* playerModelName = EngineGetPlayerModelName(playerindex);
+    const char* playerModelName = EngineGetPlayerModelName(playerindex);
 
-	const bool usesNamedModel =
-		(g_pDeveloper->value || !gPrivateFuncs.Host_IsSinglePlayerGame())
-		&& playerModelName[0];
+    const bool usesNamedModel =
+        (g_pDeveloper->value || !gPrivateFuncs.Host_IsSinglePlayerGame()) && playerModelName[0];
 
-	if (usesNamedModel)
-		return strcmp((*DM_PlayerState)[playerindex].name, playerModelName) != 0;
+    if (usesNamedModel)
+        return strcmp((*DM_PlayerState)[playerindex].name, playerModelName) != 0;
 
-	return (*DM_PlayerState)[playerindex].model != currentEntity->model;
+    return (*DM_PlayerState)[playerindex].model != currentEntity->model;
 }
 
 /*
@@ -106,114 +105,114 @@ static bool SCModel_IsModelChanged(int playerindex, cl_entity_t* currentEntity)
 */
 static void SCModel_OnPlayerModelChanged(int playerindex, cl_entity_t* currentEntity)
 {
-	player_model_t* state = &(*DM_PlayerState)[playerindex];
+    player_model_t* state = &(*DM_PlayerState)[playerindex];
 
-	if (state->model == currentEntity->model || !state->model)
-	{
-		if (state->name[0])
-		{
-			if (SCModel_AutoDownload())
-			{
-				SCModelDatabase()->QueryModel(state->name);
-			}
-		}
-	}
+    if (state->model == currentEntity->model || !state->model)
+    {
+        if (state->name[0])
+        {
+            if (SCModel_AutoDownload())
+            {
+                SCModelDatabase()->QueryModel(state->name);
+            }
+        }
+    }
 }
 
 int R_StudioDrawPlayer(int flags, entity_state_t* pplayer)
 {
-	cl_entity_t* currentEntity = IEngineStudio.GetCurrentEntity();
-	const int playerindex = pplayer->number - 1;
+    cl_entity_t* currentEntity = IEngineStudio.GetCurrentEntity();
+    const int    playerindex   = pplayer->number - 1;
 
-	bool bModelChanged = false;
+    bool bModelChanged = false;
 
-	if (playerindex >= 0 && playerindex < gEngfuncs.GetMaxClients())
-	{
-		bModelChanged = SCModel_IsModelChanged(playerindex, currentEntity);
-	}
+    if (playerindex >= 0 && playerindex < gEngfuncs.GetMaxClients())
+    {
+        bModelChanged = SCModel_IsModelChanged(playerindex, currentEntity);
+    }
 
-	const int result = gPrivateFuncs.R_StudioDrawPlayer(flags, pplayer);
+    const int result = gPrivateFuncs.R_StudioDrawPlayer(flags, pplayer);
 
-	if (bModelChanged)
-	{
-		SCModel_OnPlayerModelChanged(playerindex, currentEntity);
-	}
+    if (bModelChanged)
+    {
+        SCModel_OnPlayerModelChanged(playerindex, currentEntity);
+    }
 
-	return result;
+    return result;
 }
 
 model_t* studioapi_SetupPlayerModel(int playerindex)
 {
-	cl_entity_t* currentEntity = IEngineStudio.GetCurrentEntity();
+    cl_entity_t* currentEntity = IEngineStudio.GetCurrentEntity();
 
-	const bool bModelChanged = SCModel_IsModelChanged(playerindex, currentEntity);
+    const bool bModelChanged = SCModel_IsModelChanged(playerindex, currentEntity);
 
-	model_t* result = gPrivateFuncs.studioapi_SetupPlayerModel(playerindex);
+    model_t* result = gPrivateFuncs.studioapi_SetupPlayerModel(playerindex);
 
-	if (bModelChanged)
-	{
-		SCModel_OnPlayerModelChanged(playerindex, currentEntity);
-	}
+    if (bModelChanged)
+    {
+        SCModel_OnPlayerModelChanged(playerindex, currentEntity);
+    }
 
-	return result;
+    return result;
 }
 
 void SCModel_Reload_f(void)
 {
-	SCModel_ReloadAllModels();
+    SCModel_ReloadAllModels();
 }
 
 void HUD_Frame(double frame)
 {
-	gExportfuncs.HUD_Frame(frame);
+    gExportfuncs.HUD_Frame(frame);
 
-	SCModelDatabase()->RunFrame();
-	UtilHTTPClient()->RunFrame();
+    SCModelDatabase()->RunFrame();
+    UtilHTTPClient()->RunFrame();
 }
 
 void HUD_Init(void)
 {
-	gExportfuncs.HUD_Init();
-	
-	scmodel_autodownload = gEngfuncs.pfnRegisterVariable("scmodel_autodownload", "1", FCVAR_CLIENTDLL | FCVAR_ARCHIVE);
+    gExportfuncs.HUD_Init();
 
-	scmodel_downloadlatest = gEngfuncs.pfnRegisterVariable("scmodel_downloadlatest", "1", FCVAR_CLIENTDLL | FCVAR_ARCHIVE);
+    scmodel_autodownload = gEngfuncs.pfnRegisterVariable("scmodel_autodownload", "1", FCVAR_CLIENTDLL | FCVAR_ARCHIVE);
 
-	scmodel_cdn = gEngfuncs.pfnRegisterVariable("scmodel_cdn", "0", FCVAR_CLIENTDLL | FCVAR_ARCHIVE);
+    scmodel_downloadlatest = gEngfuncs.pfnRegisterVariable("scmodel_downloadlatest", "1", FCVAR_CLIENTDLL | FCVAR_ARCHIVE);
 
-	scmodel_max_retry = gEngfuncs.pfnRegisterVariable("scmodel_max_retry", "3", FCVAR_CLIENTDLL | FCVAR_ARCHIVE);
+    scmodel_cdn = gEngfuncs.pfnRegisterVariable("scmodel_cdn", "0", FCVAR_CLIENTDLL | FCVAR_ARCHIVE);
 
-	gEngfuncs.pfnAddCommand("scmodel_reload", SCModel_Reload_f);
+    scmodel_max_retry = gEngfuncs.pfnRegisterVariable("scmodel_max_retry", "3", FCVAR_CLIENTDLL | FCVAR_ARCHIVE);
 
-	SCModelDatabase()->Init();
+    gEngfuncs.pfnAddCommand("scmodel_reload", SCModel_Reload_f);
+
+    SCModelDatabase()->Init();
 }
 
 void HUD_Shutdown(void)
 {
-	SCModelDatabase()->Shutdown();
+    SCModelDatabase()->Shutdown();
 
-	gExportfuncs.HUD_Shutdown();
+    gExportfuncs.HUD_Shutdown();
 
-	UtilAssetsIntegrity_Shutdown();
-	UtilHTTPClient_Shutdown();
+    UtilAssetsIntegrity_Shutdown();
+    UtilHTTPClient_Shutdown();
 }
 
-int HUD_GetStudioModelInterface(int version, struct r_studio_interface_s **ppinterface, struct engine_studio_api_s *pstudio)
+int HUD_GetStudioModelInterface(int version, struct r_studio_interface_s** ppinterface, struct engine_studio_api_s* pstudio)
 {
-	memcpy(&IEngineStudio, pstudio, sizeof(IEngineStudio));
-	gpStudioInterface = ppinterface;
+    memcpy(&IEngineStudio, pstudio, sizeof(IEngineStudio));
+    gpStudioInterface = ppinterface;
 
-	g_pDeveloper = IEngineStudio.GetCvar("developer");
+    g_pDeveloper = IEngineStudio.GetCvar("developer");
 
-	if (!g_pDeveloper)
-	{
-		Sys_Error("%s", "Failed to resolve the \"developer\" cvar");
-		return 0;
-	}
+    if (!g_pDeveloper)
+    {
+        Sys_Error("%s", "Failed to resolve the \"developer\" cvar");
+        return 0;
+    }
 
-	Engine_InstallHook();
+    Engine_InstallHook();
 
-	int result = gExportfuncs.HUD_GetStudioModelInterface ? gExportfuncs.HUD_GetStudioModelInterface(version, ppinterface, pstudio) : 1;
+    int result = gExportfuncs.HUD_GetStudioModelInterface ? gExportfuncs.HUD_GetStudioModelInterface(version, ppinterface, pstudio) : 1;
 
-	return result;
+    return result;
 }
