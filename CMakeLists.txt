@@ -63,7 +63,9 @@ target_compile_options(scmodeldownloader_settings INTERFACE /permissive
     /wd4311 /wd4312 /wd4819 /wd4996)
 
 include(cmake/Sources.cmake)
+include(cmake/SourceGroups.cmake)
 add_library(SCModelDownloader SHARED ${SCMODELDOWNLOADER_SOURCES})
+scmodeldownloader_assign_source_groups(SCModelDownloader)
 target_link_libraries(SCModelDownloader PRIVATE scmodeldownloader_settings)
 target_compile_options(SCModelDownloader PRIVATE /MP /Zi)
 target_link_options(SCModelDownloader PRIVATE /DEBUG /SUBSYSTEM:WINDOWS
