@@ -4,3 +4,5 @@
 
 void UtilAssetsIntegrity_Init();
 void UtilAssetsIntegrity_Shutdown();
+
+IUtilAssetsIntegrity* UtilAssetsIntegrity();
