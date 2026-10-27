@@ -52,8 +52,7 @@ The scripts configure under `build/x86/<Configuration>` and install the DLL, PDB
 gamedata and UI assets under `install/x86/<Configuration>/svencoop`.
 They do not deploy files into a local game installation.
 
-The first configure fetches every source dependency (MetaHook from the latest `main`) and a
-SHA256-verified VC-LTL 5.3.1 binary package in `thirdparty/cache`. Dependencies are
+The first configure fetches every source dependency (MetaHook from the latest `main`). Dependencies are
 consumed as headers (the MetaHook SDK also supplies its compilation units); none of their
 projects are configured or built. The explicit source list preserves the original 13 plugin
 and 105 SDK compilation units, with C++20 and a static CRT. The plugin neither uses Capstone

@@ -49,8 +49,7 @@ scripts\build-SCModelDownloader-x86-Debug.bat
 构建目录为 `build/x86/<Configuration>`，DLL、PDB、gamedata 和 UI 资源安装到
 `install/x86/<Configuration>/svencoop`。脚本不会向本地游戏目录部署文件。
 
-首次配置会获取所有源码依赖（MetaHook 跟踪最新 `main`），以及经过 SHA256 校验的 VC-LTL 5.3.1 二进制包；
-后者缓存于 `thirdparty/cache`。依赖只以头文件形式使用（MetaHook SDK 另外提供编译单元），
+首次配置会获取所有源码依赖（MetaHook 跟踪最新 `main`）。依赖只以头文件形式使用（MetaHook SDK 另外提供编译单元），
 不会配置或构建它们的工程。显式编译清单保留原工程的 13 个插件和 105 个 SDK 编译单元，
 使用 C++20 和静态 CRT。插件不使用 Capstone，也不链接 `steam_api`。
 

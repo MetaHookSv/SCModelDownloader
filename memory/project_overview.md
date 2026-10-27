@@ -163,8 +163,7 @@ Symbols and ABI contract (gamedata-only, no signature search):
   `src/SCModelDownloaderSettingsPage.*`, `src/TaskListPage.*`, `src/TaskListPanel.*` — VGUI2 UI.
 - `src/UtilHTTPClient.*`, `src/UtilAssetsIntegrity.*`, `src/VGUI2ExtensionImport.*` — dependency access.
 - `assets/svencoop/scmodeldownloader/` — UI layouts, localization and the bundled database files.
-- `CMakeLists.txt`, `cmake/Sources.cmake` (explicit compile list), `cmake/Dependencies.cmake`,
-  `cmake/VCLTL.cmake` — build.
+- `CMakeLists.txt`, `cmake/Sources.cmake` (explicit compile list), `cmake/Dependencies.cmake` — build.
 - `scripts/build-SCModelDownloader-x86-{Debug,Release}.bat` — configure/build/install entry points.
 - `scripts/manifests/scmodeldownloader.json`, `scripts/sync-gamedata.py`,
   `scripts/validate-gamedata.py` — gamedata synchronization and validation.
@@ -174,8 +173,7 @@ Symbols and ABI contract (gamedata-only, no signature search):
 ## Build and data flow
 
 `scripts/build-SCModelDownloader-x86-{Debug,Release}.bat` → CMake (Visual Studio 17 2022,
-`-A Win32`) → compile the DLL → install. The build uses MSVC x86 / C++20 and a static CRT with VC-LTL
-5.3.1; `cmake/Sources.cmake` preserves the original 13 plugin and 105 SDK compilation units
+`-A Win32`) → compile the DLL → install. The build uses MSVC x86 / C++20 and a static CRT; `cmake/Sources.cmake` preserves the original 13 plugin and 105 SDK compilation units
 (SourceSDK core, mathlib, tier0/1, vstdlib and `vgui_controls`), and no dependency project is built.
 `scripts/manifests/scmodeldownloader.json` → `scripts/sync-gamedata.py` → pruned catalog under
 `build/x86/<Configuration>/assets/svencoop/metahook/gamedata/scmodeldownloader`, validated before the

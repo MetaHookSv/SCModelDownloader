@@ -1,5 +1,3 @@
-set(SCMODELDOWNLOADER_DEPENDENCY_CACHE_DIR "${PROJECT_SOURCE_DIR}/thirdparty/cache" CACHE PATH "Downloaded dependency cache")
-set(VC_LTL_Root "${SCMODELDOWNLOADER_DEPENDENCY_CACHE_DIR}/VC-LTL-5.3.1" CACHE PATH "VC-LTL binary package root")
 set(SCMODELDOWNLOADER_DEPENDENCIES METAHOOK VGUI2EXTENSION UTILASSETSINTEGRITY UTILHTTPCLIENT SCOPEEXIT RAPIDJSON)
 foreach(dependency IN LISTS SCMODELDOWNLOADER_DEPENDENCIES)
     set(${dependency}_SOURCE_PATH "$ENV{${dependency}_SOURCE_PATH}" CACHE PATH "${dependency} source tree; empty fetches the pinned commit")
@@ -73,6 +71,4 @@ function(scmodeldownloader_prepare_dependencies)
         message(STATUS "${dependency}_SOURCE_PATH: ${${dependency}_SOURCE_PATH}")
     endforeach()
 
-    include("${CMAKE_CURRENT_FUNCTION_LIST_DIR}/VCLTL.cmake")
-    scmodeldownloader_prepare_vcltl()
 endfunction()

@@ -21,7 +21,6 @@ endif()
 
 include(cmake/Dependencies.cmake)
 scmodeldownloader_prepare_dependencies()
-include("${VC_LTL_Root}/VC-LTL helper for cmake.cmake")
 
 # Include directories and definitions follow SCModelDownloader.vcxproj. The
 # interface repositories come before the MetaHook SDK so their headers win over

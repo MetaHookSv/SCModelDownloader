@@ -22,7 +22,7 @@ This file provides guidance and important rules working with code in this reposi
 ### When notes are insufficient: source entry points (query and read on demand)
 
 - Build: `CMakeLists.txt`, `cmake/Sources.cmake` (explicit compile list: 13 plugin + 105 SDK units),
-  `cmake/Dependencies.cmake` (dependency pins and source-path resolution), `cmake/VCLTL.cmake`,
+  `cmake/Dependencies.cmake` (dependency pins and source-path resolution),
   `scripts/build-SCModelDownloader-x86-{Debug,Release}.bat`
 - Plugin sources: `src/`; lifecycle `src/plugins.cpp`, replaced client exports and model-change
   pipeline `src/exportfuncs.cpp`, gamedata symbols and hooks `src/privatehook.cpp`, query tasks and
@@ -44,8 +44,7 @@ This file provides guidance and important rules working with code in this reposi
 - External sources, all read-only inputs: `METAHOOK_SOURCE_PATH`, `VGUI2EXTENSION_SOURCE_PATH`,
   `UTILASSETSINTEGRITY_SOURCE_PATH`, `UTILHTTPCLIENT_SOURCE_PATH` (either UtilHTTPClient repository),
   `SCOPEEXIT_SOURCE_PATH`, `RAPIDJSON_SOURCE_PATH`; each also accepts an environment variable, and
-  explicit paths are validated before anything is downloaded. VC-LTL 5.3.1 is fetched into
-  `thirdparty/cache`
+  explicit paths are validated before anything is downloaded.
 - Build output: `build/x86/<configuration>/`; install output: `install/x86/<configuration>/svencoop/`.
   Neither is tracked, and nothing is deployed to the game automatically
 
@@ -74,7 +73,7 @@ This file provides guidance and important rules working with code in this reposi
 - Do not modify external sources or third-party sources. MetaHook, VGUI2Extension, UtilHTTPClient,
   UtilAssetsIntegrity, RapidJSON and ScopeExit are read-only build inputs; only MetaHook's compilation
   units are compiled here.
-- The plugin builds for MSVC x86 only. Keep the static CRT / VC-LTL, C++20 and warning-level settings
+- The plugin builds for MSVC x86 only. Keep the static CRT, C++20 and warning-level settings
   in `CMakeLists.txt` in sync with the other standalone plugin repositories.
 - Verification distinguishes build checks from a real game run: there is no test suite here, and the
   UI, the engine hooks and the downloader all need a live Sven Co-op session. Claims about in-game
